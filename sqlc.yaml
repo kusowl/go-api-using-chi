@@ -1,0 +1,17 @@
+version: "2"
+sql:
+  - engine: "postgresql"
+    queries: "./internal/adaptars/sqlc/queries"
+    schema: "./internal/adaptars/migrations"
+    gen:
+      go:
+        package: "repo"
+        out: "./internal/adaptars/sqlc"
+        sql_package: "pgx/v5"
+        emit_json_tags: true
+        emit_interface: true
+        overrides: # Overidee the pgtype.Timestampz to go's time package
+          - db_type: timestamptz
+            go_type:
+              import: time
+              type: Time
